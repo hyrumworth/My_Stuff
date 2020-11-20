@@ -1,0 +1,195 @@
+Create Database Assignment_3;
+
+CREATE TABLE CUSTOMER ( CustomerID INT auto_increment PRIMARY KEY,
+First_Name varchar(25), Last_Name varchar(25), City varchar(25), 
+State varchar(15), Zip_Code int(8), Phone varchar(12),
+Birthdate DATE NOT NULL, Registration_Date date);
+
+INSERT into customer (First_Name, Last_Name, City, State, Zip_Code, Phone, Birthdate, Registration_Date) values  
+('ron', 'darn', 'motown', 'TX','56453','5555555556','1992-09-23','2020-01-01' ),
+('joe', 'this', 'motown', 'TX','56453','5555555557','1993-09-23','2020-01-01' ),
+('emma', 'stupid', 'motown', 'TX','56453','5555555558','1994-09-23','2020-01-01' ),
+('karen', 'auto', 'notown', 'TX','56453','5555555559','1995-09-23','2020-01-01' ),
+('angie', 'data', 'motown', 'TX','56453','5555555551','1996-09-23','2020-01-01' ),
+('jake', 'generator', 'motown', 'TX','56453','5555555552','1997-09-23','2020-01-01' ),
+('don', 'doesnt', 'downtown', 'TX','56453','5555555553','1998-09-23','2020-01-01' ),
+('alex', 'work', 'motown', 'TX','56453','5555555554','1999-09-23','2020-01-01' ),
+('megan', 'piece', 'motown', 'TX','56453','5555555515','1981-09-23','2020-01-01' ),
+('eric', 'of', 'motown', 'TX','56453','5555555525','1971-09-23','2020-01-01' );
+
+
+CREATE TABLE _ORDER( OrderID INT auto_increment PRIMARY KEY, Order_Date DATE, 
+Payment_Method varchar(10), Order_Type varchar(25),
+CustomerID int, 
+constraint order_customer FOREIGN KEY (CustomerId) REFERENCES customer (CustomerID));
+
+INSERT into _order (Order_Date,Payment_Method,Order_Type,CustomerID) Values
+('2020-01-01','Method1','Type1',1),
+('2018-01-01','Method1','Type2',2),
+('2017-01-01','Method1','Type1',3),
+('2016-01-01','Method1','Type2',4),
+('2015-01-01','Method2','Type1',5),
+('2014-01-01','Method1','Type1',6),
+('2013-01-01','Method2','Type2',7),
+('2012-01-01','Method1','Type1',8),
+('2011-01-01','Method2','Type1',9),
+('2010-01-01','Method2','Type2',10);
+Select * from _order;
+
+CREATE TABLE SHIPPED_ORDER (ShippedOrderID int auto_increment primary key, ShippingMethod varchar(20),
+constraint shiporder_order_custid foreign key (ShippedOrderID) references _ORDER (OrderID));
+INSERT into shipped_order Values
+(1,'OMethod1'),
+(2,'OMethod1'),
+(3,'OMethod1'),
+(4,'OMethod1'),
+(5,'OMethod1'),
+(6,'OMethod1'),
+(7,'OMethod1'),
+(8,'OMethod1'),
+(9,'OMethod1'),
+(10,'OMethod1');
+select * from shipped_order;
+
+create table Album (AlbumID int auto_increment primary key, AlbumTitle varchar(50), AlbumPrice float, Release_date date);
+INSERT INTO Album (AlbumTitle, AlbumPrice, Release_date) VALUES
+('take the plung',1.01,'2020-01-02'),
+('Thats a...',10.01,'2020-01-03'),
+('regaytitle',9.01,'2020-01-04'),
+('not for old men',8.01,'2020-01-05'),
+('some call it soda',7.01,'2020-01-06'),
+('Not easter but...',6.01,'2020-01-07'),
+('Old stuff we found on grandmas shelf',5.01,'2020-01-08'),
+('t-rex',4.01,'2020-01-09'),
+('Going coconuts!',3.01,'2020-01-10'),
+('Ablas?',2.01,'2020-01-11');
+SELECT * from album;
+
+create table ORDER_CONTENT ( ShippedOrderID int,  AlbumID int, Quantity int,
+constraint content_shiporder_order_cust foreign key (ShippedOrderID) references _order(OrderID));
+INSERT into order_content Values
+(1,21,10),
+(2,22,20),
+(3,23,30),
+(4,24,40),
+(5,25,50),
+(6,26,60),
+(7,27,70),
+(8,28,80),
+(9,29,90),
+(10,30,100);
+
+create table GENRE (GenreID int auto_increment primary key, Genre_Name varchar(20));
+INSERT INTO GENRE (Genre_Name) values
+("Cloggin"),
+("Rap"),
+('Regay'),
+('Country'),
+('Pop'),
+('Wester'),
+('Classical'),
+('Dino'),
+('Islander'),
+('Spanish');
+
+create table SONG (SongID int auto_increment primary key, Song_Title varchar(50), Play_Time int);
+INSERT INTO SONG (Song_Title, Play_Time) values
+("My Toilet is Clogged", 123),
+("I want a salad Rap",124),
+('Hey is Ray Gay?',125),
+('Australia aint my Country',126),
+('Pop goes the weasle',127),
+('The more Wester I go the more im lost',128),
+('by Classical we mean booring',129),
+('Dino. Why not?',130),
+('That big rock in the water Is lander',131),
+('Spanish feaver',132);
+
+create table SONG_ALBUM (SongID int, AlbumID int, 
+constraint songalb_song foreign key (SongID) references SONG (SongID),
+constraint songalb_alb foreign key (AlbumID) references Album (AlbumID));
+INSERT INTO SONG_ALBUM VALUES
+(1,1),
+(2,2),
+(3,3),
+(4,4),
+(5,5),
+(6,6),
+(7,7),
+(8,8),
+(9,9),
+(10,10);
+
+create table SONG_GENRE (SongID int, GenreID int, 
+constraint songgnre_song foreign key (SongID) references SONG (SongID),
+constraint songgnre_alb foreign key (GenreID) references GENRE (GenreID));
+Insert into SONG_GENRE values
+(1,1),
+(2,2),
+(3,3),
+(4,4),
+(5,5),
+(6,6),
+(7,7),
+(8,8),
+(9,9),
+(10,10);
+
+
+create table ARTIST(ArtistId int auto_increment primary key, Artist_Name varchar(50), Debut_Date date);
+Insert into artist (Artist_Name, Debut_Date) Values
+('t-pain','2010-01-02'),
+('Gyro','2009-01-03'),
+('Marley & Marley','2008-01-04'),
+('United','2007-01-05'),
+('Sprite','2006-01-06'),
+('Smith & ','2005-01-07'),
+('Amadeus williams','2004-01-08'),
+('jurasic','2003-01-09'),
+('China made me','2002-01-10'),
+('juan carlos','2001-01-11');
+
+create table SONG_ARTIST (SongID int, ArtistID int,
+constraint SongArt_Song foreign key (SongID) references	SONG (SongID),
+constraint SongArt_Art foreign key (ArtistID) references ARTIST (ArtistID));
+insert into song_artist values 
+(1,1),
+(2,2),
+(3,3),
+(4,4),
+(5,5),
+(6,6),
+(7,7),
+(8,8),
+(9,9),
+(10,10);
+
+
+create table SUBSCRIPTION (SubscriptionID int auto_increment primary key, Subscription_Type varchar(25),
+constraint Sub_Order foreign key (SubscriptionID) references _ORDER (OrderID));
+INSert into subscription values
+(1,'SType1'),
+(2,'SType2'),
+(3,'SType1'),
+(4,'SType2'),
+(5,'SType1'),
+(6,'SType2'),
+(7,'SType1'),
+(8,'SType2'),
+(9,'SType1'),
+(10,'SType2');
+
+create table PLAY_HISTORY (SubscriptionID int, SongID int, Play_Date date, Play_Count int,
+constraint plahist_sub_Ord foreign key (SubscriptionID) references subscription (SubscriptionID),
+constraint plahist_sng_Ord foreign key (SongID) references song (SongID));
+insert into play_history values 
+(1,1,'2011-05-05',10),
+(2,2,'2012-04-05',20),
+(3,3,'2013-01-05',30),
+(4,4,'2014-010-05',40),
+(5,5,'2015-02-05',50),
+(6,6,'2016-09-05',60),
+(7,7,'2017-03-05',70),
+(8,8,'2018-08-05',80),
+(9,9,'2019-11-05',90),
+(10,10,'2009-07-05',100);
