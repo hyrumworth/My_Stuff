@@ -1,3 +1,4 @@
+# This is my number prediction code for the kaggle competition. 
 ####set up####
 install.packages("e1071")
 install.packages("caret")
